@@ -1,0 +1,8 @@
+{
+  "body": "{\"name\":\"Mrunal Dave\",\"dob\":\"0111-01-01\",\"caste\":\"brah\",\"gender\":\"Male\",\"country\":\"United States\",\"region\":\"New Jersey\",\"city\":\"Jersey City\",\"phoneNumberCountry\":\"IN\",\"phoneNumber\":\"66935 04862\"}",
+  "requestContext": {
+    "identity": {
+      "cognitoIdentityId": "USER-SUB-1234"
+    }
+  }
+}
