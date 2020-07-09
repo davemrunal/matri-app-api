@@ -1,26 +1,28 @@
-import * as dynamoDbLib from './libs/dynamodb-lib';
-import { failure, success } from './libs/response-lib';
+import handler from "./libs/new-handler-lib";
+import dynamoDb from "./libs/new-dynamodb-lib";
 
-export async function main(event, context) {
+
+/**
+* Retrieves info if the user has completed profile and uploaded photos
+* */
+
+export const main = handler(async (event, context) => {
+    const data = JSON.parse(event.body);
+    console.log(data);
     const params = {
         TableName: process.env.tableName,
         // 'Key' defines the partition key and sort key of the item to be retrieved
-        // - 'userId': Identity Pool identity id of the authenticated user
-        // - 'noteId': path parameter
+        // - 'userId': Email
         Key: {
-            userId: event.requestContext.identity.cognitoIdentityId,
+            userId: data.emailId,
         }
     };
 
-    try {
-        const result = await dynamoDbLib.call('get', params);
-        if (result.Item) {
-            // Return the retrieved item
-            return success(result.Item);
-        } else {
-            return failure({status: false, error: 'Item not found.'});
-        }
-    } catch (e) {
-        return failure({status: false});
+    const result = await dynamoDb.get(params);
+    if ( ! result.Item) {
+        throw new Error("Item not found.");
     }
-}
+
+    // Return the retrieved item
+    return result.Item;
+});

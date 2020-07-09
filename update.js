@@ -4,6 +4,7 @@ import { failure, success } from './libs/response-lib';
 
 export async function main(event, context) {
     const data = JSON.parse(event.body);
+    console.log(data.emailId);
     const params = {
         TableName: process.env.tableName,
         // 'Key' defines the partition key and sort key of the item to be updated
@@ -16,7 +17,7 @@ export async function main(event, context) {
         // 'ExpressionAttributeValues' defines the value in the update expression
         UpdateExpression: "SET isPhotoUploaded = :isPhotoUploaded",
         ExpressionAttributeValues: {
-            ":isPhotoUploaded": data.isPhotoUploaded || null
+            ":isPhotoUploaded": true
         },
         // 'ReturnValues' specifies if and how to return the item's attributes,
         // where ALL_NEW returns all attributes of the item after the update; you
@@ -27,7 +28,6 @@ export async function main(event, context) {
     try {
         await dynamoDbLib.call('update', params);
         return success({status: true});
-
     } catch (e) {
         console.log(e);
         return failure({status: false});
