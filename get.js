@@ -1,5 +1,5 @@
-import handler from "./libs/new-handler-lib";
-import dynamoDb from "./libs/new-dynamodb-lib";
+import handler from "./libs/handler-lib";
+import dynamoDb from "./libs/dynamodb-lib";
 
 
 /**

@@ -1,8 +1,7 @@
-import * as dynamoDbLib from './libs/dynamodb-lib';
-import { failure, success } from './libs/response-lib';
+import handler from "./libs/handler-lib";
+import dynamoDb from "./libs/dynamodb-lib";
 
-
-export async function main(event, context) {
+export const main = handler(async (event, context) => {
     const data = JSON.parse(event.body);
     console.log(data.emailId);
     const params = {
@@ -15,22 +14,17 @@ export async function main(event, context) {
         },
         // 'UpdateExpression' defines the attributes to be updated
         // 'ExpressionAttributeValues' defines the value in the update expression
-        UpdateExpression: "SET isPhotoUploaded = :isPhotoUploaded",
+        UpdateExpression: 'SET isPhotoUploaded = :isPhotoUploaded',
         ExpressionAttributeValues: {
-            ":isPhotoUploaded": true
+            ':isPhotoUploaded': true
         },
         // 'ReturnValues' specifies if and how to return the item's attributes,
         // where ALL_NEW returns all attributes of the item after the update; you
         // can inspect 'result' below to see how it works with different settings
-        ReturnValues: "ALL_NEW"
+        ReturnValues: 'ALL_NEW'
     };
 
-    try {
-        await dynamoDbLib.call('update', params);
-        return success({status: true});
-    } catch (e) {
-        console.log(e);
-        return failure({status: false});
-    }
+    await dynamoDb.update(params);
 
-};
+    return {status: true};
+});
