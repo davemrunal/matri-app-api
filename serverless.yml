@@ -33,6 +33,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - ses:SendEmail
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 # Create our resources with separate CloudFormation templates
@@ -69,3 +70,11 @@ functions:
           method: put
           cors: true
           authorizer: aws_iam
+
+  staticMailer:
+    handler: contactus.staticMailer
+    events:
+      - http:
+          method: post
+          path: static-site-mailer
+          cors: true
