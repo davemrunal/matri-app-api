@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "uuid": "^3.4.0",
-    "serverless": "^1.73.1"
+    "serverless": "^1.73.1",
+    "serialize-javascript": ">=3.1.0"
   }
 }
